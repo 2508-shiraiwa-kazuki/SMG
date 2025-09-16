@@ -1,4 +1,4 @@
-package com.example.SMG.repository.Form;
+package com.example.SMG.controller.Form;
 
 import lombok.Getter;
 import lombok.Setter;
