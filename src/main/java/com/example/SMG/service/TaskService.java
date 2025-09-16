@@ -5,11 +5,13 @@ import com.example.SMG.repository.TaskRepository;
 import com.example.SMG.repository.entity.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.stereotype.Service;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class TaskService {
     @Autowired
     TaskRepository taskRepository;
@@ -17,7 +19,7 @@ public class TaskService {
     /*
      * レコード追加・更新
      */
-    public void saveTask(TaskForm reqTask) {
+    public  void saveTask(TaskForm reqTask){
         Task saveTask = setTaskEntity(reqTask);
         taskRepository.save(saveTask);
     }
@@ -53,14 +55,15 @@ public class TaskService {
     }
 
     /*
-     * リクエストから取得した情報をEntityに設定
+     * リクエストから取得した情報をentityに設定
      */
-    private Task setTaskEntity(TaskForm reqTask) {
+    private Task setTaskEntity(TaskForm reqTask){
         Task task = new Task();
         task.setId(reqTask.getId());
         task.setContent(reqTask.getContent());
         task.setStatus(reqTask.getStatus());
         task.setLimitDate(reqTask.getLimitDate());
+
         if (Integer.valueOf(reqTask.getId()) != null) {
             task.setUpdatedDate(Timestamp.valueOf(LocalDateTime.now()));
         }
