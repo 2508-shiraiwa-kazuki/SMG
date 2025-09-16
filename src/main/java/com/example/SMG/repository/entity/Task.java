@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.sql.Time;
 import java.sql.Timestamp;
 
 @Getter
@@ -22,9 +23,9 @@ public class Task {
     @Column
     private Timestamp limitDate;
 
-    @Column(insertable = false, updatable = false)
+    @Column
     private Timestamp createdDate;
 
-    @Column(insertable = false, updatable = false)
-    private  Timestamp updatedDate;
+    @Column
+    private Timestamp updatedDate;
 }
