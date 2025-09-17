@@ -36,47 +36,54 @@
         </form>
     </div>
     <!-- ここからタスク一覧 -->
-    <!-- 表見出し -->
-    <tr>
-        <th>タスク内容</th>
-        <th>ステータス</th>
-        <th>タスク期限</th>
-        <th></th>
-        <th></th>
-    </tr>
-    <!-- 表の内容 -->
-    <div class="tasks" th:each="task : ${tasks}">
-        <tr>
-            <td>
-                <span th:text="${task.content}" />
-            </td>
-            <td>
-                <select name="changeStatus">
-                    <option value="notStart">未着手</option>
-                    <option value="execute">実行中</option>
-                    <option value="stay">ステイ中</option>
-                    <option value="complete">完了</option>
-                </select>
-                <form class="change-button" th:action="@{/change/{id}(id=${task.id})}" th:method="put">
-                    <!-- 変更ボタン押下時の処理を要確認 -->
-                    <input type="submit" value="変更" />
-                </form>
-            </td>
-            <td>
-                <!-- if文でタスク期限と現在日から背景色を変更できるよう追記必要 -->
-                <span th:text="${task.limit_date}" />
-            </td>
-            <td>
-                <a class="edit-button" th:href="@{/edit/{id}(id=${task.id})}" >
-                    <input type="button" value="編集" />
-                </a>
-            </td>
-            <td>
-                <form class="delete-button" th:action="@{/delete/{id}(id=${task.id})}" >
-                    <input type="submit" value="削除" />
-                </form>
-            </td>
-        </tr>
+    <table>
+        <!-- 表見出し -->
+        <thead>
+            <tr>
+                <th>タスク内容</th>
+                <th>ステータス</th>
+                <th></th>
+                <th>タスク期限</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <!-- 表の内容 -->
+        <tbody>
+            <tr class="tasks" th:each="task : ${tasks}">
+                <td th:text="*{task.content}"></td>
+                <td>
+                    <select name="changeStatus">
+                        <option value="notStart">未着手</option>
+                        <option value="execute">実行中</option>
+                        <option value="stay">ステイ中</option>
+                        <option value="complete">完了</option>
+                    </select>
+                    <form class="change-button" th:action="@{/change/{id}(id=${task.id})}" th:method="put">
+                        <!-- 変更ボタン押下時の処理を要確認 -->
+                        <input type="submit" value="変更" />
+                    </form>
+                </td>
+                <td>
+                    <!-- if文でタスク期限と現在日から背景色を変更できるよう追記必要 -->
+                    <span th:text="${task.limitDate}" />
+                </td>
+                <td>
+                    <a class="edit-button" th:href="@{/edit/{id}(id=${task.id})}" >
+                        <input type="button" value="編集" />
+                    </a>
+                </td>
+                <td>
+                    <form class="delete-button" th:action="@{/delete/{id}(id=${task.id})}" >
+                        <input type="submit" value="削除" />
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+
+
     </div>
 </div>
 </body>

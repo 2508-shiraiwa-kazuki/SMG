@@ -78,7 +78,10 @@ public class TaskController {
      *　新規タスク追加処理
      */
     @PostMapping("/add")
-    public ModelAndView addTask(@ModelAttribute("formModel")@Validated TaskForm taskForm, BindingResult result, RedirectAttributes redirectAttributes){
+    public ModelAndView addTask(@ModelAttribute("formModel")@Validated TaskForm taskForm,
+                                BindingResult result,
+                                RedirectAttributes redirectAttributes){
+
         Timestamp limitDate = null;
         if(!StringUtils.isEmpty(taskForm.getLimitDate())){
             Timestamp today = new Timestamp(System.currentTimeMillis());
