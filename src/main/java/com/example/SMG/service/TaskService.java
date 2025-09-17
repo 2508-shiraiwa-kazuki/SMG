@@ -21,10 +21,10 @@ public class TaskService {
     /*
      * タスク取得＋絞り込み
      */
-    public List<TaskForm> findTask(Date startDate, Date endDate, int status, String keyword){
+    public List<TaskForm> findTask(String startDate, String endDate, int status, String keyword){
         // 開始日の設定
         String startTime;
-        if(!StringUtils.isBlank(String.valueOf(startDate))){
+        if(!StringUtils.isBlank(startDate)){
             startTime = startDate + " 00:00:00";
         } else {
             startTime = "2020-01-01 00:00:00";
@@ -32,7 +32,7 @@ public class TaskService {
         Timestamp start = Timestamp.valueOf(startTime);
         // 終了日の設定
         String endTime;
-        if(!StringUtils.isBlank(String.valueOf(endDate))){
+        if(!StringUtils.isBlank(endDate)){
             endTime = endDate + " 23:59:59";
         } else {
             endTime = "2100-12-31 23:59:59";

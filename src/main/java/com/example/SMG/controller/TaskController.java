@@ -29,8 +29,8 @@ public class TaskController {
      * TOP画面表示
      */
     @GetMapping
-    public ModelAndView top(@RequestParam(required = false) Date startDate,
-                            @RequestParam(required = false) Date endDate,
+    public ModelAndView top(@RequestParam(required = false) String startDate,
+                            @RequestParam(required = false) String endDate,
                             @RequestParam(defaultValue = "1") int status,
                             @RequestParam(required = false) String keyword
                             ){
@@ -39,10 +39,10 @@ public class TaskController {
         List<TaskForm> taskData = taskService.findTask(startDate, endDate, status, keyword);
         // 現在日の取得
         Date now = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
         String today = sdf.format(now);
 
-        mav.setViewName("/");
+        mav.setViewName("/top");
         mav.addObject("tasks", taskData);
         mav.addObject("today", today);
         mav.addObject("startDate", startDate);
