@@ -136,7 +136,7 @@ public class TaskController {
      */
     @PutMapping("/update/{id}")
     public ModelAndView updateTask(@PathVariable Integer id,
-                                   @Validated @ModelAttribute("formModel") TaskForm task,
+                                   @ModelAttribute("formModel") @Validated TaskForm task,
                                    BindingResult result) {
         // タスク内容をチェック
         Timestamp limitDate = null;
