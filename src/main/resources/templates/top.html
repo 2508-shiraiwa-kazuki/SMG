@@ -74,7 +74,7 @@
                     </a>
                 </td>
                 <td>
-                    <form class="delete-button" th:action="@{/delete/{id}(id=${task.id})}" >
+                    <form class="delete-button" th:action="@{/delete/{id}(id=${task.id})}" th:method="delete" >
                         <input type="submit" value="削除" />
                     </form>
                 </td>
