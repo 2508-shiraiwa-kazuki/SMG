@@ -9,12 +9,8 @@ import java.util.List;
 
 @Repository
 public interface TaskRepository extends JpaRepository<Task, Integer> {
-    List<Task> findByLimitDateBetweenAndContentContainingAndStatus(Timestamp start,
+    List<Task> findByLimitDateBetweenAndStatusAndContentContaining(Timestamp start,
                                                                    Timestamp end,
-                                                                   String keyword,
-                                                                   int status);
-
-    List<Task> findByLimitDateBetweenAndContentContaining(Timestamp start,
-                                                          Timestamp end,
-                                                          String keyword);
+                                                                   int status,
+                                                                   String keyword);
 }

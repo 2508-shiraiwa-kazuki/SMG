@@ -71,20 +71,23 @@ public class TaskController {
      *　新規タスク追加処理
      */
     @PostMapping("/add")
-    public ModelAndView addTask(@ModelAttribute("formModel") @Validated TaskForm taskForm, BindingResult result, RedirectAttributes redirectAttributes) {
+    public ModelAndView addTask(@ModelAttribute("formModel")@Validated TaskForm taskForm,
+                                BindingResult result,
+                                RedirectAttributes redirectAttributes){
+
         Timestamp limitDate = null;
-        if (!StringUtils.isEmpty(taskForm.getLimitDate())) {
+        if(!StringUtils.isEmpty(taskForm.getLimitDate())){
             Timestamp today = new Timestamp(System.currentTimeMillis());
             limitDate = Timestamp.valueOf(taskForm.getLimitDate() + " 23:59:59");
 
             //今日の日付と入力された日付を比較し、過去の日付であればエラーを追加
-            if (limitDate.before(today)) {
+            if(limitDate.before(today)){
                 FieldError fieldError = new FieldError(result.getObjectName(), "limitDate", "無効な日付です");
                 result.addError(fieldError);
             }
         }
 
-        if (result.hasErrors()) {
+        if(result.hasErrors()){
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.formModel", result);
             redirectAttributes.addFlashAttribute("formModel", taskForm);
             return new ModelAndView("redirect:/new");

@@ -14,11 +14,11 @@
             <div class="form-area">
                 <label>タスク内容</label>
                     <textarea th:field="*{content}" size="20" maxlength="200"></textarea>
-                   <!--  <div class="errorMessage" th:id="#fields.hasErrors('content')" th:errors="*{content}"></div> -->
+                    <div class="errorMessage" th:id="${#fields.hasErrors('content')}" th:errors="*{content}"></div>
                 <br />
                 <label>タスク期限</label>
-                    <input type="Date" th:field="*{limitDate}">
-              <!--  <div class="errorMessage" th:id="#fields.hasErrors('limitDate')" th:errors="*{limitDate}"></div> -->
+                    <input type="date" th:field="*{limitDate}">
+                    <div class="errorMessage" th:id="${#fields.hasErrors('limitDate')}" th:errors="*{limitDate}"></div>
                 <input type="submit" value="追加" />
             </div>
         </form>
