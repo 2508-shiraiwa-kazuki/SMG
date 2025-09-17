@@ -3,14 +3,63 @@ package com.example.SMG.service;
 import com.example.SMG.controller.Form.TaskForm;
 import com.example.SMG.repository.TaskRepository;
 import com.example.SMG.repository.entity.Task;
+import io.micrometer.common.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
+
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 @Service
 public class TaskService {
     @Autowired
     TaskRepository taskRepository;
+
+    /*
+     * タスク取得＋絞り込み
+     */
+    public List<TaskForm> findTask(Date startDate, Date endDate, int status, String keyword){
+        // 開始日の設定
+        String startTime;
+        if(!StringUtils.isBlank(String.valueOf(startDate))){
+            startTime = startDate + " 00:00:00";
+        } else {
+            startTime = "2020-01-01 00:00:00";
+        }
+        Timestamp start = Timestamp.valueOf(startTime);
+        // 終了日の設定
+        String endTime;
+        if(!StringUtils.isBlank(String.valueOf(endDate))){
+            endTime = endDate + " 23:59:59";
+        } else {
+            endTime = "2100-12-31 23:59:59";
+        }
+        Timestamp end = Timestamp.valueOf(endTime);
+        // 条件①「開始日と終了日の間」findByLimitDateBetween(start, end);
+        // 条件②「ステータスの状態」findByStatus(status);
+        // 条件③「～を含む」findByContentContaining(keyword);
+        List<Task> results = taskRepository.findByLimitDateBetweenAndStatusAndContentContaining(start, end, status, keyword);
+        return setTaskForm(results);
+    }
+
+    private List<TaskForm> setTaskForm(List<Task> results){
+        List<TaskForm> tasks = new ArrayList<>();
+        for(int i = 0; i < results.size(); i++){
+            TaskForm task = new TaskForm();
+            Task result = results.get(i);
+            task.setId(result.getId());
+            task.setContent(result.getContent());
+            task.setStatus(result.getStatus());
+            task.setLimitDate(result.getLimitDate());
+            task.setCreatedDate(result.getCreatedDate());
+            task.setUpdatedDate(result.getUpdatedDate());
+            tasks.add(task);
+        }
+        return tasks;
+    }
 
     /*
      * 新規タスク追加

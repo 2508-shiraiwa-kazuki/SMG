@@ -16,6 +16,8 @@ public class TaskForm {
     @NotBlank(message = "タスクを入力してください")
     private String content;
 
+    private  int status;
+
     @NotBlank(message = "期限を設定してください")
     private Timestamp limitDate;
 

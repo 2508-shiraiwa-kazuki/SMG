@@ -21,6 +21,9 @@ public class Task {
     private String content;
 
     @Column
+    private int status;
+
+    @Column
     private Timestamp limitDate;
 
     @Column(insertable = false, updatable = false)
