@@ -7,11 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -21,13 +17,27 @@ public class TaskController {
     TaskService taskService;
 
     /*
+     * ステータス変更処理
+     */
+    @PutMapping("/change/{id}")
+    public ModelAndView changeStatus(@PathVariable Integer id,
+                                     @ModelAttribute("formModel") TaskForm task) {
+        // 更新対象のタスクIDを設定
+        task.setId(id);
+        // ステータス更新処理
+        taskService.saveTask(task);
+        // TOP画面表示処理
+        return new ModelAndView("redirect:/");
+    }
+
+    /*
      * 新規タスク追加画面表示
      */
     @GetMapping("/new")
-    public ModelAndView newTask(Model model){
+    public ModelAndView newTask(Model model) {
         ModelAndView mav = new ModelAndView();
 
-        if(!model.containsAttribute("formModel")){
+        if (!model.containsAttribute("formModel")) {
             TaskForm taskForm = new TaskForm();
             mav.addObject("formModel", taskForm);
         }
@@ -38,8 +48,9 @@ public class TaskController {
     }
 
     @PostMapping("/add")
-    public ModelAndView addTask(@ModelAttribute("formModel")@Validated TaskForm taskForm, BindingResult result, RedirectAttributes redirectAttributes){
-        if(result.hasErrors()){
+    public ModelAndView addTask(@ModelAttribute("formModel") @Validated TaskForm taskForm,
+                                BindingResult result, RedirectAttributes redirectAttributes) {
+        if (result.hasErrors()) {
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.formModel", result);
             redirectAttributes.addFlashAttribute("formModel", taskForm);
             return new ModelAndView("redirect:/new");
@@ -54,23 +65,23 @@ public class TaskController {
      * タスク編集画面表示処理
      */
     @GetMapping("/edit/{id}")
-    public ModelAndView editTask(@PathVariable Integer id, BindingResult result) {
+    public ModelAndView editTask(@PathVariable @Validated Integer id,
+                                 BindingResult result, RedirectAttributes redirectAttributes) {
         // 取得したタスクIDをチェック
         if (result.hasErrors()) {
+            redirectAttributes.addFlashAttribute("formModel", result);
             return new ModelAndView("redirect:/");
         }
-
         // タスク取得処理
-        ModelAndView mav = new ModelAndView();
         TaskForm task = taskService.editTask(id);
-
-        // タスクIDの存在チェック
+        // タスクの存在チェック
         if (task == null) {
-            String errorMessages = "不正なパラメータです";
+            String errorMessage = "不正なパラメータです";
+            redirectAttributes.addFlashAttribute("formModel", errorMessage);
             return new ModelAndView("redirect:/");
         }
-
         // タスク編集画面表示処理
+        ModelAndView mav = new ModelAndView();
         mav.addObject("formModel", task);
         mav.setViewName("/edit");
         return mav;
@@ -82,19 +93,16 @@ public class TaskController {
     @PutMapping("/update/{id}")
     public ModelAndView updateTask(@PathVariable Integer id,
                                    @Validated @ModelAttribute("formModel") TaskForm task,
-                                   BindingResult result) {
-
+                                   BindingResult result, RedirectAttributes redirectAttributes) {
         // タスク内容をチェック
         if (result.hasErrors()) {
-            ModelAndView mav = new ModelAndView();
-            mav.setViewName("/edit");
-            return mav;
+            redirectAttributes.addFlashAttribute("formModel", result);
+            redirectAttributes.addFlashAttribute("formModel", task);
+            return new ModelAndView("redirect:/edit");
         }
-
         // タスク更新処理
         task.setId(id);
         taskService.saveTask(task);
-
         // TOP画面表示処理
         return new ModelAndView("redirect:/");
     }

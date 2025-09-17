@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
+    <link th:href="@{/css/style.css}" rel="styleSheet">
     <title>タスク編集</title>
 </head>
 <body>
@@ -9,13 +10,17 @@
     <h2>タスク編集</h2>
 </div>
 <div class="main-contents">
-    <form th:action="@{/update/{id}(id=${formModel.id}" th:object="${formModel}" th:method="put">
-        <div class="errorMessage" th:if="${#fields.hasErrors('content')}" th:errors="*{]"></div>
+    <form th:method="put" th:action="@{/update/{id}(id=${formModel.id}" th:object="${formModel}">
         <div class="form-area">
-            <lael>タスク内容</lael><br/>
-            <textarea class="" name="content" th:field="*{content}" size="20" maxlength="140"></textarea><br/>
-            <label>タスク期限</label><br/>
-            <input type="date"/><br/>
+            <lael>タスク内容</lael>
+            <div class="errorMessage" th:if="${#fields.hasErrors('content')}" th:errors="*{content}"></div>
+            <textarea th:field="*{content}" size="20" maxlength="200"></textarea>
+            <br/>
+            <label>タスク期限</label>
+            <div class="errorMessage" th:if="${#fields.hasErrors('limitDate')}" th:errors="*{limitDate}"></div>
+            <div class="errorMessage" th:if="${#fields.hasErrors(' ')}" th:errors="*{ }"></div>
+            <input type="date" th:filed="*{limitDate}"/>
+            <br/>
             <input type="submit" value="編集"/>
         </div>
     </form>
