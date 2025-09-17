@@ -40,18 +40,21 @@ public class TaskService {
         }
         Timestamp end = Timestamp.valueOf(endTime);
 
-        int limit = 1000;
-
         // 条件①「開始日と終了日の間」findByLimitDateBetween(start, end); if文不要
         // 条件②「～を含む」findByContentContaining(keyword); if文不要？
         // 条件③「ステータスの状態」findByStatus(status); 値が0の時は無視するようなif文が必要
         // Jpa文 findByLimitDateBetween And ContentContaining And Status
 
         List<Task> results;
-        if(status != 0) {
-            results = taskRepository.findByLimitDateBetweenAndContentContainingAndStatus(start, end, keyword, status);
+        if(keyword != null && status != 0) {
+//            results = taskRepository.findByLimitDateBetweenAndContentContainingAndStatus(start, end, keyword, status);
+            results = taskRepository.findTop1000ByLimitDateBetweenAndContentAndStatusOrderByLimitDateAsc(start, end, keyword, status);
+        } else if(keyword == null && status != 0){
+//            results = taskRepository.findTop1000ByLimitDateBetweenAndContentOrderByLimitDateAsc(start, end, keyword);
+            results = taskRepository.findTop1000ByLimitDateBetweenAndStatusOrderByLimitDateAsc(start, end, status);
+        } else if(keyword != null){
+            results = taskRepository.findTop1000ByLimitDateBetweenAndContentOrderByLimitDateAsc(start, end, keyword);
         } else {
-//            results = taskRepository.findByLimitDateBetweenAndContentContaining(start, end, keyword);
             results = taskRepository.findTop1000ByLimitDateBetweenOrderByLimitDateAsc(start, end);
         }
         return setTaskForm(results);
