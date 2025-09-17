@@ -10,9 +10,7 @@ import java.sql.Timestamp;
 @Setter
 public class TaskForm {
 
-    @NotNull(message = "不正なパラメータです")
-//    @Pattern(regexp = "^[0-9]+$", message = "不正なパラメータです")
-    private int id;
+    private Integer id;
 
     @NotBlank(message = "タスクを入力してください")
     @Size(min = 1, max =  140, message = "タスクは140文字以内で入力してください")
@@ -26,5 +24,4 @@ public class TaskForm {
     private Timestamp createdDate;
 
     private Timestamp updatedDate;
-
 }
