@@ -14,7 +14,10 @@ public interface TaskRepository extends JpaRepository<Task, Integer> {
                                                                    String keyword,
                                                                    int status);
 
-    List<Task> findByLimitDateBetweenAndContentContaining(Timestamp start,
-                                                          Timestamp end,
-                                                          String keyword);
+//    List<Task> findByLimitDateBetweenAndContentContaining(Timestamp start,
+//                                                          Timestamp end,
+//                                                          String keyword);
+
+    List<Task> findTop1000ByLimitDateBetweenOrderByLimitDateAsc(Timestamp start,
+                                                              Timestamp end);
 }
