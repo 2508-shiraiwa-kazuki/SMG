@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -38,10 +37,18 @@ public class TaskService {
             endTime = "2100-12-31 23:59:59";
         }
         Timestamp end = Timestamp.valueOf(endTime);
-        // 条件①「開始日と終了日の間」findByLimitDateBetween(start, end);
-        // 条件②「ステータスの状態」findByStatus(status);
-        // 条件③「～を含む」findByContentContaining(keyword);
-        List<Task> results = taskRepository.findByLimitDateBetweenAndStatusAndContentContaining(start, end, status, keyword);
+
+        // 条件①「開始日と終了日の間」findByLimitDateBetween(start, end); if文不要
+        // 条件②「～を含む」findByContentContaining(keyword); if文不要？
+        // 条件③「ステータスの状態」findByStatus(status); 値が0の時は無視するようなif文が必要
+        // Jpa文 findByLimitDateBetween And ContentContaining And Status
+
+        List<Task> results;
+        if(status != 0) {
+            results = taskRepository.findByLimitDateBetweenAndContentContainingAndStatus(start, end, keyword, status);
+        } else {
+            results = taskRepository.findByLimitDateBetweenAndContentContaining(start, end, keyword);
+        }
         return setTaskForm(results);
     }
 
@@ -50,6 +57,7 @@ public class TaskService {
      */
     private List<TaskForm> setTaskForm(List<Task> results){
         List<TaskForm> tasks = new ArrayList<>();
+
         for(int i = 0; i < results.size(); i++){
             TaskForm task = new TaskForm();
             Task result = results.get(i);

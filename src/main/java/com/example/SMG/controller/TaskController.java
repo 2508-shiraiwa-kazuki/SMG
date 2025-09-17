@@ -31,10 +31,11 @@ public class TaskController {
     @GetMapping
     public ModelAndView top(@RequestParam(required = false) String startDate,
                             @RequestParam(required = false) String endDate,
-                            @RequestParam(defaultValue = "1") int status,
+                            @RequestParam(defaultValue = "0") int status,
                             @RequestParam(required = false) String keyword
                             ){
         ModelAndView mav = new ModelAndView();
+
         // タスク取得＋絞り込み
         List<TaskForm> taskData = taskService.findTask(startDate, endDate, status, keyword);
         // 現在日の取得
