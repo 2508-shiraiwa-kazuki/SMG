@@ -41,18 +41,18 @@ public class TaskService {
         Timestamp end = Timestamp.valueOf(endTime);
 
         // 条件①「開始日と終了日の間」findByLimitDateBetween(start, end); if文不要
-        // 条件②「～を含む」findByContentContaining(keyword); if文不要？
+        // 条件②「～に完全一致」findByContentContaining(keyword); if文不要？
         // 条件③「ステータスの状態」findByStatus(status); 値が0の時は無視するようなif文が必要
         // Jpa文 findByLimitDateBetween And ContentContaining And Status
 
         List<Task> results;
-        if(keyword != null && status != 0) {
+        if((!StringUtils.isBlank(keyword)) && (status != 0)) {
 //            results = taskRepository.findByLimitDateBetweenAndContentContainingAndStatus(start, end, keyword, status);
             results = taskRepository.findTop1000ByLimitDateBetweenAndContentAndStatusOrderByLimitDateAsc(start, end, keyword, status);
-        } else if(keyword == null && status != 0){
+        } else if((StringUtils.isBlank(keyword)) && (status != 0)){
 //            results = taskRepository.findTop1000ByLimitDateBetweenAndContentOrderByLimitDateAsc(start, end, keyword);
             results = taskRepository.findTop1000ByLimitDateBetweenAndStatusOrderByLimitDateAsc(start, end, status);
-        } else if(keyword != null){
+        } else if((!StringUtils.isBlank(keyword)) && (status == 0)){
             results = taskRepository.findTop1000ByLimitDateBetweenAndContentOrderByLimitDateAsc(start, end, keyword);
         } else {
             results = taskRepository.findTop1000ByLimitDateBetweenOrderByLimitDateAsc(start, end);
@@ -109,14 +109,14 @@ public class TaskService {
      */
     private Task setTaskEntity(TaskForm reqTask, Timestamp limitDate){
         Task task = new Task();
-
-        if(reqTask.getId() != null){
-            task.setId(reqTask.getId());
-            task.setUpdatedDate(Timestamp.valueOf(LocalDateTime.now()));
-        }
         task.setContent(reqTask.getContent());
         task.setStatus(reqTask.getStatus());
         task.setLimitDate(limitDate);
+
+        if (reqTask.getId() != null) {
+            task.setId(reqTask.getId());
+            task.setUpdatedDate(Timestamp.valueOf(LocalDateTime.now()));
+        }
         return task;
     }
 }

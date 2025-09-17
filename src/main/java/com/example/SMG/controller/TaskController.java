@@ -14,8 +14,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.thymeleaf.util.StringUtils;
 
 import java.sql.Timestamp;
-
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -31,8 +31,7 @@ public class TaskController {
     public ModelAndView top(@RequestParam(required = false) String startDate,
                             @RequestParam(required = false) String endDate,
                             @RequestParam(defaultValue = "1") int status,
-                            @RequestParam(required = false) String keyword
-                            ){
+                            @RequestParam(required = false) String keyword) {
         ModelAndView mav = new ModelAndView();
         // タスク取得＋絞り込み
         List<TaskForm> taskData = taskService.findTask(startDate, endDate, status, keyword);
@@ -55,10 +54,10 @@ public class TaskController {
      * 新規タスク追加画面表示
      */
     @GetMapping("/new")
-    public ModelAndView newTask(Model model){
+    public ModelAndView newTask(Model model) {
         ModelAndView mav = new ModelAndView();
 
-        if(!model.containsAttribute("formModel")){
+        if (!model.containsAttribute("formModel")) {
             TaskForm taskForm = new TaskForm();
             mav.addObject("formModel", taskForm);
         }
@@ -66,6 +65,21 @@ public class TaskController {
         //画面遷移先指定
         mav.addObject("/new");
         return mav;
+    }
+
+    /*
+     * ステータス変更処理
+     */
+    @PutMapping("/change/{id}")
+    public ModelAndView changeStatus(@PathVariable Integer id,
+                                     @ModelAttribute("tasks") TaskForm task) {
+        // 更新対象のタスクIDを設定
+        task.setId(id);
+        // ステータス更新処理
+        Timestamp limitDate = Timestamp.valueOf(task.getLimitDate());
+        taskService.saveTask(task, limitDate);
+        // TOP画面表示処理
+        return new ModelAndView("redirect:/");
     }
 
     /*
@@ -105,23 +119,28 @@ public class TaskController {
      * タスク編集画面表示処理
      */
     @GetMapping("/edit/{id}")
-    public ModelAndView editTask(@PathVariable Integer id, BindingResult result) {
+    public ModelAndView editTask(@PathVariable Integer id, RedirectAttributes redirectAttributes) {
+        List<String> errorMessages = new ArrayList<>();
+
         // 取得したタスクIDをチェック
-        if (result.hasErrors()) {
+        if (id == null ||  id.toString().matches( "^\\\\d+$")) {
+            errorMessages.add("不正なパラメータです");
+            redirectAttributes.addFlashAttribute("formModel", errorMessages);
             return new ModelAndView("redirect:/");
         }
 
         // タスク取得処理
-        ModelAndView mav = new ModelAndView();
         TaskForm task = taskService.editTask(id);
 
-        // タスクIDの存在チェック
+        // タスクの存在チェック
         if (task == null) {
-            String errorMessages = "不正なパラメータです";
+            errorMessages.add("不正なパラメータです");
+            redirectAttributes.addFlashAttribute("formModel", errorMessages);
             return new ModelAndView("redirect:/");
         }
 
         // タスク編集画面表示処理
+        ModelAndView mav = new ModelAndView();
         mav.addObject("formModel", task);
         mav.setViewName("/edit");
         return mav;
@@ -132,22 +151,20 @@ public class TaskController {
      */
     @PutMapping("/update/{id}")
     public ModelAndView updateTask(@PathVariable Integer id,
-                                   @Validated @ModelAttribute("formModel") TaskForm task,
+                                   @ModelAttribute("formModel") @Validated TaskForm task,
                                    BindingResult result) {
-
+        // タスク内容をチェック
         Timestamp limitDate = null;
-        if(!StringUtils.isEmpty(task.getLimitDate())){
+        if (!StringUtils.isEmpty(task.getLimitDate())) {
             Timestamp today = new Timestamp(System.currentTimeMillis());
             limitDate = Timestamp.valueOf(task.getLimitDate() + " 23:59:59");
 
             //今日の日付と入力された日付を比較し、過去の日付であればエラーを追加
-            if(limitDate.before(today)){
+            if (limitDate.before(today)) {
                 FieldError fieldError = new FieldError(result.getObjectName(), "limitDate", "無効な日付です");
                 result.addError(fieldError);
             }
         }
-
-        // タスク内容をチェック
         if (result.hasErrors()) {
             ModelAndView mav = new ModelAndView();
             mav.setViewName("/edit");
@@ -166,7 +183,7 @@ public class TaskController {
      * タスク削除処理
      */
     @DeleteMapping("/delete/{id}")
-    public ModelAndView deleteTask(@PathVariable Integer id){
+    public ModelAndView deleteTask(@PathVariable Integer id) {
         taskService.deleteTask(id);
         return new ModelAndView("redirect:/");
     }
