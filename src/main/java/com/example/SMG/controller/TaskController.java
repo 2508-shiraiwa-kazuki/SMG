@@ -14,8 +14,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.thymeleaf.util.StringUtils;
 
 import java.sql.Timestamp;
-
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -71,20 +71,20 @@ public class TaskController {
      *　新規タスク追加処理
      */
     @PostMapping("/add")
-    public ModelAndView addTask(@ModelAttribute("formModel")@Validated TaskForm taskForm, BindingResult result, RedirectAttributes redirectAttributes){
+    public ModelAndView addTask(@ModelAttribute("formModel") @Validated TaskForm taskForm, BindingResult result, RedirectAttributes redirectAttributes) {
         Timestamp limitDate = null;
-        if(!StringUtils.isEmpty(taskForm.getLimitDate())){
+        if (!StringUtils.isEmpty(taskForm.getLimitDate())) {
             Timestamp today = new Timestamp(System.currentTimeMillis());
             limitDate = Timestamp.valueOf(taskForm.getLimitDate() + " 23:59:59");
 
             //今日の日付と入力された日付を比較し、過去の日付であればエラーを追加
-            if(limitDate.before(today)){
+            if (limitDate.before(today)) {
                 FieldError fieldError = new FieldError(result.getObjectName(), "limitDate", "無効な日付です");
                 result.addError(fieldError);
             }
         }
 
-        if(result.hasErrors()){
+        if (result.hasErrors()) {
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.formModel", result);
             redirectAttributes.addFlashAttribute("formModel", taskForm);
             return new ModelAndView("redirect:/new");
@@ -101,20 +101,23 @@ public class TaskController {
      * タスク編集画面表示処理
      */
     @GetMapping("/edit/{id}")
-    public ModelAndView editTask(@PathVariable @Validated Integer id,
-                                 BindingResult result, RedirectAttributes redirectAttributes) {
+    public ModelAndView editTask(@PathVariable Integer id, RedirectAttributes redirectAttributes) {
+        List<String> errorMessages = new ArrayList<>();
+
         // 取得したタスクIDをチェック
-        if (result.hasErrors()) {
-            redirectAttributes.addFlashAttribute("formModel", result);
+        if (id == null ||  id.toString().matches( "^\\\\d+$")) {
+            errorMessages.add("不正なパラメータです");
+            redirectAttributes.addFlashAttribute("formModel", errorMessages);
             return new ModelAndView("redirect:/");
         }
 
         // タスク取得処理
         TaskForm task = taskService.editTask(id);
+
         // タスクの存在チェック
         if (task == null) {
-            String errorMessage = "不正なパラメータです";
-            redirectAttributes.addFlashAttribute("formModel", errorMessage);
+            errorMessages.add("不正なパラメータです");
+            redirectAttributes.addFlashAttribute("formModel", errorMessages);
             return new ModelAndView("redirect:/");
         }
 
@@ -132,20 +135,18 @@ public class TaskController {
     public ModelAndView updateTask(@PathVariable Integer id,
                                    @Validated @ModelAttribute("formModel") TaskForm task,
                                    BindingResult result) {
-
+        // タスク内容をチェック
         Timestamp limitDate = null;
-        if(!StringUtils.isEmpty(task.getLimitDate())){
+        if (!StringUtils.isEmpty(task.getLimitDate())) {
             Timestamp today = new Timestamp(System.currentTimeMillis());
             limitDate = Timestamp.valueOf(task.getLimitDate() + " 23:59:59");
 
             //今日の日付と入力された日付を比較し、過去の日付であればエラーを追加
-            if(limitDate.before(today)){
+            if (limitDate.before(today)) {
                 FieldError fieldError = new FieldError(result.getObjectName(), "limitDate", "無効な日付です");
                 result.addError(fieldError);
             }
         }
-
-        // タスク内容をチェック
         if (result.hasErrors()) {
             ModelAndView mav = new ModelAndView();
             mav.setViewName("/edit");
@@ -164,7 +165,7 @@ public class TaskController {
      * タスク削除処理
      */
     @DeleteMapping("/delete/{id}")
-    public ModelAndView deleteTask(@PathVariable Integer id){
+    public ModelAndView deleteTask(@PathVariable Integer id) {
         taskService.deleteTask(id);
         return new ModelAndView("redirect:/");
     }
