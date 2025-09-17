@@ -24,5 +24,4 @@ public class TaskForm {
     private Timestamp createdDate;
 
     private Timestamp updatedDate;
-
 }
