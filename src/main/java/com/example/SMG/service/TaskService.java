@@ -12,6 +12,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+
+
 @Service
 public class TaskService {
     @Autowired
@@ -64,7 +66,7 @@ public class TaskService {
             task.setId(result.getId());
             task.setContent(result.getContent());
             task.setStatus(result.getStatus());
-            task.setLimitDate(result.getLimitDate());
+            task.setLimitDate(String.valueOf(result.getLimitDate()));
             task.setCreatedDate(result.getCreatedDate());
             task.setUpdatedDate(result.getUpdatedDate());
             tasks.add(task);
@@ -75,11 +77,17 @@ public class TaskService {
     /*
      * レコード追加・更新
      */
-    public  void saveTask(TaskForm reqTask){
-        Task saveTask = setTaskEntity(reqTask);
+    public  void saveTask(TaskForm reqTask, Timestamp limitDate){
+        Task saveTask = setTaskEntity(reqTask, limitDate);
         taskRepository.save(saveTask);
     }
 
+    /*
+     * タスク削除
+     */
+    public void  deleteTask(Integer id){
+        taskRepository.deleteById(id);
+    }
     /*
      * 編集対象レコード取得処理
      */
@@ -93,12 +101,12 @@ public class TaskService {
     /*
      * リクエストから取得した情報をentityに設定
      */
-    private Task setTaskEntity(TaskForm reqTask){
+    private Task setTaskEntity(TaskForm reqTask, Timestamp limitDate){
         Task task = new Task();
         task.setId(reqTask.getId());
         task.setContent(reqTask.getContent());
         task.setStatus(reqTask.getStatus());
-        task.setLimitDate(reqTask.getLimitDate());
+        task.setLimitDate(limitDate);
 
         if (Integer.valueOf(reqTask.getId()) != null) {
             task.setUpdatedDate(Timestamp.valueOf(LocalDateTime.now()));
