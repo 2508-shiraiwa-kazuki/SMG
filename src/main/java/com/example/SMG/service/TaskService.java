@@ -10,8 +10,9 @@ import org.springframework.stereotype.Service;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
+
+
 
 @Service
 public class TaskService {
@@ -38,10 +39,18 @@ public class TaskService {
             endTime = "2100-12-31 23:59:59";
         }
         Timestamp end = Timestamp.valueOf(endTime);
-        // 条件①「開始日と終了日の間」findByLimitDateBetween(start, end);
-        // 条件②「ステータスの状態」findByStatus(status);
-        // 条件③「～を含む」findByContentContaining(keyword);
-        List<Task> results = taskRepository.findByLimitDateBetweenAndStatusAndContentContaining(start, end, status, keyword);
+
+        // 条件①「開始日と終了日の間」findByLimitDateBetween(start, end); if文不要
+        // 条件②「～を含む」findByContentContaining(keyword); if文不要？
+        // 条件③「ステータスの状態」findByStatus(status); 値が0の時は無視するようなif文が必要
+        // Jpa文 findByLimitDateBetween And ContentContaining And Status
+
+        List<Task> results;
+        if(status != 0) {
+            results = taskRepository.findByLimitDateBetweenAndContentContainingAndStatus(start, end, keyword, status);
+        } else {
+            results = taskRepository.findByLimitDateBetweenAndContentContaining(start, end, keyword);
+        }
         return setTaskForm(results);
     }
 
@@ -50,13 +59,14 @@ public class TaskService {
      */
     private List<TaskForm> setTaskForm(List<Task> results){
         List<TaskForm> tasks = new ArrayList<>();
+
         for(int i = 0; i < results.size(); i++){
             TaskForm task = new TaskForm();
             Task result = results.get(i);
             task.setId(result.getId());
             task.setContent(result.getContent());
             task.setStatus(result.getStatus());
-            task.setLimitDate(result.getLimitDate());
+            task.setLimitDate(String.valueOf(result.getLimitDate()));
             task.setCreatedDate(result.getCreatedDate());
             task.setUpdatedDate(result.getUpdatedDate());
             tasks.add(task);
@@ -67,11 +77,17 @@ public class TaskService {
     /*
      * レコード追加・更新
      */
-    public  void saveTask(TaskForm reqTask){
-        Task saveTask = setTaskEntity(reqTask);
+    public  void saveTask(TaskForm reqTask, Timestamp limitDate){
+        Task saveTask = setTaskEntity(reqTask, limitDate);
         taskRepository.save(saveTask);
     }
 
+    /*
+     * タスク削除
+     */
+    public void  deleteTask(Integer id){
+        taskRepository.deleteById(id);
+    }
     /*
      * 編集対象レコード取得処理
      */
@@ -85,12 +101,12 @@ public class TaskService {
     /*
      * リクエストから取得した情報をentityに設定
      */
-    private Task setTaskEntity(TaskForm reqTask){
+    private Task setTaskEntity(TaskForm reqTask, Timestamp limitDate){
         Task task = new Task();
         task.setId(reqTask.getId());
         task.setContent(reqTask.getContent());
         task.setStatus(reqTask.getStatus());
-        task.setLimitDate(reqTask.getLimitDate());
+        task.setLimitDate(limitDate);
 
         if (Integer.valueOf(reqTask.getId()) != null) {
             task.setUpdatedDate(Timestamp.valueOf(LocalDateTime.now()));

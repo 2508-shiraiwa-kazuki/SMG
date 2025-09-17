@@ -14,18 +14,17 @@ public class TaskForm {
     @Pattern(regexp = "^[0-9]+$", message = "不正なパラメータです")
     private int id;
 
-    @NotBlank(message = "タスク内容を入力してください。")
-
-    @Size(min = 1, max = 140, message = "タスクは140文字以内で入力してください")
-
+    @NotBlank(message = "タスクを入力してください")
+    @Size(min = 1, max =  140, message = "タスクは140文字以内で入力してください")
     private String content;
 
     private int status;
 
     @NotBlank(message = "期限を設定してください")
-    private Timestamp limitDate;
+    private String limitDate;
 
     private Timestamp createdDate;
 
     private Timestamp updatedDate;
+
 }

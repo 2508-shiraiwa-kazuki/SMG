@@ -11,6 +11,7 @@ import java.sql.Timestamp;
 @Getter
 @Setter
 public class Task {
+
     @Id
     @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,6 +29,7 @@ public class Task {
     @Column(insertable = false, updatable = false)
     private Timestamp createdDate;
 
-    @Column(insertable = false, updatable = true)
-    private Timestamp updatedDate;
+    @Column(insertable = false, updatable = false)
+    private  Timestamp updatedDate;
+
 }
