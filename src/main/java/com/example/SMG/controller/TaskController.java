@@ -27,8 +27,7 @@ public class TaskController {
     public ModelAndView top(@RequestParam(required = false) String startDate,
                             @RequestParam(required = false) String endDate,
                             @RequestParam(defaultValue = "1") int status,
-                            @RequestParam(required = false) String keyword
-                            ){
+                            @RequestParam(required = false) String keyword) {
         ModelAndView mav = new ModelAndView();
         // タスク取得＋絞り込み
         List<TaskForm> taskData = taskService.findTask(startDate, endDate, status, keyword);
@@ -45,20 +44,6 @@ public class TaskController {
         mav.addObject("status", status);
         mav.addObject("keyword", keyword);
         return mav;
-    }
-
-    /*
-     * ステータス変更処理
-     */
-    @PutMapping("/change/{id}")
-    public ModelAndView changeStatus(@PathVariable Integer id,
-                                     @ModelAttribute("formModel") TaskForm task) {
-        // 更新対象のタスクIDを設定
-        task.setId(id);
-        // ステータス更新処理
-        taskService.saveTask(task);
-        // TOP画面表示処理
-        return new ModelAndView("redirect:/");
     }
 
     /*
@@ -103,6 +88,7 @@ public class TaskController {
             redirectAttributes.addFlashAttribute("formModel", result);
             return new ModelAndView("redirect:/");
         }
+
         // タスク取得処理
         TaskForm task = taskService.editTask(id);
         // タスクの存在チェック
@@ -111,6 +97,7 @@ public class TaskController {
             redirectAttributes.addFlashAttribute("formModel", errorMessage);
             return new ModelAndView("redirect:/");
         }
+
         // タスク編集画面表示処理
         ModelAndView mav = new ModelAndView();
         mav.addObject("formModel", task);
@@ -124,16 +111,19 @@ public class TaskController {
     @PutMapping("/update/{id}")
     public ModelAndView updateTask(@PathVariable Integer id,
                                    @Validated @ModelAttribute("formModel") TaskForm task,
-                                   BindingResult result, RedirectAttributes redirectAttributes) {
+                                   BindingResult result) {
+
         // タスク内容をチェック
         if (result.hasErrors()) {
-            redirectAttributes.addFlashAttribute("formModel", result);
-            redirectAttributes.addFlashAttribute("formModel", task);
-            return new ModelAndView("redirect:/edit");
+            ModelAndView mav = new ModelAndView();
+            mav.setViewName("/edit");
+            return mav;
         }
+
         // タスク更新処理
         task.setId(id);
         taskService.saveTask(task);
+
         // TOP画面表示処理
         return new ModelAndView("redirect:/");
     }

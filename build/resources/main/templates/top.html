@@ -12,25 +12,25 @@
 
 <div class="main-contents">
     <div class="date">
-        本日の日付 : <span th:text="${today}"/>
+        本日の日付 : <span th:text="${today}" />
     </div>
     <!-- 新規タスク登録 -->
     <div class="new-button">
         <a th:href="@{/new}">
-            <input type="button" value="新規タスク"/>
+            <input type="button" value="新規タスク" />
         </a>
     </div>
     <!-- 絞り込み -->
     <div class="filter">
         <form action="/" method="get">
-            期限 <input type="date" name="startDate" th:value="${startDate}"/>
-            ~ <input type="date" name="endDate" th:value="${endDate}"/>
+            期限 <input type="date" name="startDate" th:value="${startDate}" />
+              ~  <input type="date" name="endDate" th:value="${endDate}" />
             ステータス <select name="status">
-            <option value="1">未着手</option>
-            <option value="2">実行中</option>
-            <option value="3">ステイ中</option>
-            <option value="4">完了</option>
-        </select>
+                        <option value="1">未着手</option>
+                        <option value="2">実行中</option>
+                        <option value="3">ステイ中</option>
+                        <option value="4">完了</option>
+                     </select>
             タスク内容 <input type="text" name="keyword" th:value="${keyword}"/>
             <input type="submit" value="絞込"/>
         </form>
@@ -48,7 +48,7 @@
     <div class="tasks" th:each="task : ${tasks}">
         <tr>
             <td>
-                <span th:text="${task.content}"/>
+                <span th:text="${task.content}" />
             </td>
             <td>
                 <select name="changeStatus">
@@ -59,21 +59,21 @@
                 </select>
                 <form class="change-button" th:action="@{/change/{id}(id=${task.id})}" th:method="put">
                     <!-- 変更ボタン押下時の処理を要確認 -->
-                    <input type="submit" value="変更"/>
+                    <input type="submit" value="変更" />
                 </form>
             </td>
             <td>
                 <!-- if文でタスク期限と現在日から背景色を変更できるよう追記必要 -->
-                <span th:text="${task.limit_date}"/>
+                <span th:text="${task.limit_date}" />
             </td>
             <td>
-                <a class="edit-button" th:href="@{/edit/{id}(id=${task.id})}">
-                    <input type="button" value="編集"/>
+                <a class="edit-button" th:href="@{/edit/{id}(id=${task.id})}" >
+                    <input type="button" value="編集" />
                 </a>
             </td>
             <td>
-                <form class="delete-button" th:action="@{/delete/{id}(id=${task.id})}">
-                    <input type="submit" value="削除"/>
+                <form class="delete-button" th:action="@{/delete/{id}(id=${task.id})}" >
+                    <input type="submit" value="削除" />
                 </form>
             </td>
         </tr>
