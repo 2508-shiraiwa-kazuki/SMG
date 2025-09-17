@@ -1,7 +1,6 @@
 package com.example.SMG.controller.Form;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,10 +13,13 @@ public class TaskForm {
     private int id;
 
     @NotBlank(message = "タスクを入力してください")
+    @Size(min = 1, max =  140, message = "タスクは140文字以内で入力してください")
     private String content;
 
+    private int status;
+
     @NotBlank(message = "期限を設定してください")
-    private Timestamp limitDate;
+    private String limitDate;
 
     private Timestamp createdDate;
 
