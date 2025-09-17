@@ -68,6 +68,21 @@ public class TaskController {
     }
 
     /*
+     * ステータス変更処理
+     */
+    @PutMapping("/change/{id}")
+    public ModelAndView changeStatus(@PathVariable Integer id,
+                                     @ModelAttribute("tasks") TaskForm task) {
+        // 更新対象のタスクIDを設定
+        task.setId(id);
+        // ステータス更新処理
+        Timestamp limitDate = Timestamp.valueOf(task.getLimitDate());
+        taskService.saveTask(task, limitDate);
+        // TOP画面表示処理
+        return new ModelAndView("redirect:/");
+    }
+
+    /*
      *　新規タスク追加処理
      */
     @PostMapping("/add")

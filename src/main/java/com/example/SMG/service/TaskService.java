@@ -109,12 +109,12 @@ public class TaskService {
      */
     private Task setTaskEntity(TaskForm reqTask, Timestamp limitDate){
         Task task = new Task();
-//        task.setId(reqTask.getId());
         task.setContent(reqTask.getContent());
         task.setStatus(reqTask.getStatus());
         task.setLimitDate(limitDate);
 
-        if (Integer.valueOf(reqTask.getId()) != null) {
+        if (reqTask.getId() != null) {
+            task.setId(reqTask.getId());
             task.setUpdatedDate(Timestamp.valueOf(LocalDateTime.now()));
         }
         return task;
