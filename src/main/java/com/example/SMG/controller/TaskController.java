@@ -36,11 +36,10 @@ public class TaskController {
     @GetMapping
     public ModelAndView top(@RequestParam(required = false) String startDate,
                             @RequestParam(required = false) String endDate,
-                            @RequestParam(defaultValue = "0") int status,
+                            @RequestParam(defaultValue = "1") int status,
                             @RequestParam(required = false) String keyword
                             ){
         ModelAndView mav = new ModelAndView();
-
         // タスク取得＋絞り込み
         List<TaskForm> taskData = taskService.findTask(startDate, endDate, status, keyword);
         // 現在日の取得
@@ -79,7 +78,10 @@ public class TaskController {
      *　新規タスク追加処理
      */
     @PostMapping("/add")
-    public ModelAndView addTask(@ModelAttribute("formModel")@Validated TaskForm taskForm, BindingResult result, RedirectAttributes redirectAttributes){
+    public ModelAndView addTask(@ModelAttribute("formModel")@Validated TaskForm taskForm,
+                                BindingResult result,
+                                RedirectAttributes redirectAttributes){
+
         Timestamp limitDate = null;
         if(!StringUtils.isEmpty(taskForm.getLimitDate())){
             Timestamp today = new Timestamp(System.currentTimeMillis());
