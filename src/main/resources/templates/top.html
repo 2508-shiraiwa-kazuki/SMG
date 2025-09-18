@@ -51,84 +51,47 @@
         </thead>
         <!-- 表の内容 -->
         <tbody>
-<!--        <tr class="tasks" th:each="task : ${tasks}">
-            <form class="change-button" th:action="@{/change/{id}(id=${task.id})}" th:object="${task}" th:method="put">
-                <td>
-                    <span th:text="*{task.content}"></span>
-                    <input type="hidden" th:field="*{content}">
-                </td>
-                <td>
-                    <select name="changeStatus" th:value="${task.status}">
+        <tr th:each="task : ${tasks}">
+            <td>
+                <span th:text="${task.content}"></span>
+            </td>
+
+            <td>
+                <form th:action="@{/change/{id}(id=${task.id})}" method="post">
+                    <input type="hidden" name="_method" value="put"/>
+
+                    <!-- contentとlimitDateをhiddenで送信 -->
+                    <input type="hidden" name="content" th:value="${task.content}"/>
+                    <input type="hidden" name="limitDate" th:value="${task.limitDate}"/>
+
+                    <!-- statusの変更セレクト -->
+                    <select name="status">
                         <option value="1" th:selected="${task.status == 1}">未着手</option>
                         <option value="2" th:selected="${task.status == 2}">実行中</option>
                         <option value="3" th:selected="${task.status == 3}">ステイ中</option>
                         <option value="4" th:selected="${task.status == 4}">完了</option>
                     </select>
-                <td>
-                    <span th:text="${task.limitDate}"/>
-                    <input type="hidden" th:field="*{limitDate}">
-                </td>
-                <td>
+
                     <input type="submit" value="変更"/>
-                </td>
-            </form>
+                </form>
             </td>
+
             <td>
-                <a class="edit-button" th:href="@{/edit/{id}(id=${task.id})}">
+                <span th:text="${task.limitDate}"></span>
+            </td>
+
+            <td>
+                <a th:href="@{/edit/{id}(id=${task.id})}">
                     <input type="button" value="編集"/>
                 </a>
             </td>
+
             <td>
-                <form class="delete-button" th:action="@{/delete/{id}(id=${task.id})}" th:method="delete">
+                <form th:action="@{/delete/{id}(id=${task.id})}" th:method="delete">
                     <input type="submit" value="削除"/>
                 </form>
             </td>
-        </tr> -->
-
-<tr th:each="task : ${tasks}">
-    <td>
-        <span th:text="${task.content}"></span>
-    </td>
-
-    <td>
-        <form th:action="@{/change/{id}(id=${task.id})}" method="post">
-            <input type="hidden" name="_method" value="put" />
-
-            <!-- contentとlimitDateをhiddenで送信 -->
-            <input type="hidden" name="content" th:value="${task.content}" />
-            <input type="hidden" name="limitDate" th:value="${task.limitDate}" />
-
-            <!-- statusの変更セレクト -->
-            <select name="status">
-                <option value="1" th:selected="${task.status == 1}">未着手</option>
-                <option value="2" th:selected="${task.status == 2}">実行中</option>
-                <option value="3" th:selected="${task.status == 3}">ステイ中</option>
-                <option value="4" th:selected="${task.status == 4}">完了</option>
-            </select>
-
-            <input type="submit" value="変更" />
-        </form>
-    </td>
-
-    <td>
-        <span th:text="${task.limitDate}"></span>
-    </td>
-
-    <td>
-        <a th:href="@{/edit/{id}(id=${task.id})}">
-            <input type="button" value="編集" />
-        </a>
-    </td>
-
-    <td>
-        <form th:action="@{/delete/{id}(id=${task.id})}" th:method="delete">
-            <input type="submit" value="削除" />
-        </form>
-    </td>
-</tr>
-
-
-
+        </tr>
         </tbody>
     </table>
 </div>

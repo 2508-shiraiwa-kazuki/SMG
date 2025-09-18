@@ -180,7 +180,7 @@ public class TaskController {
         Timestamp limitDate = null;
         if (!StringUtils.isEmpty(task.getLimitDate())) {
             Timestamp today = new Timestamp(System.currentTimeMillis());
-            limitDate = Timestamp.valueOf(task.getLimitDate() + " 23:59:59");
+            limitDate = Timestamp.valueOf(task.getLimitDate());
 
             //今日の日付と入力された日付を比較し、過去の日付であればエラーを追加
             if (limitDate.before(today)) {
