@@ -57,8 +57,7 @@
             </td>
 
             <td>
-                <form th:action="@{/change/{id}(id=${task.id})}" method="post">
-                    <input type="hidden" name="_method" value="put"/>
+                <form th:action="@{/change/{id}(id=${task.id})}" th:method="put">
 
                     <!-- contentとlimitDateをhiddenで送信 -->
                     <input type="hidden" name="content" th:value="${task.content}"/>
