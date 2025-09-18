@@ -5,9 +5,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1d52bebf-da9f-4f16-8ade-6bcab455cdca" name="変更" comment="">
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/SMG/controller/Form/TaskForm.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/SMG/controller/Form/TaskForm.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.14.3/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.14.3/executionHistory/executionHistory.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.14.3/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.14.3/fileHashes/fileHashes.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.14.3/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.14.3/fileHashes/fileHashes.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.14.3/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.14.3/fileHashes/resourceHashesCache.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/cache.properties" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/cache.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/example/SMG/controller/TaskController.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/example/SMG/controller/TaskController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/resources/main/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/build/resources/main/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/resources/main/templates/new.html" beforeDir="false" afterPath="$PROJECT_DIR$/build/resources/main/templates/new.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/compileTransaction/stash-dir/TaskController.class.uniqueId0" beforeDir="false" afterPath="$PROJECT_DIR$/build/tmp/compileJava/compileTransaction/stash-dir/TaskController.class.uniqueId0" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" afterPath="$PROJECT_DIR$/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/SMG/controller/TaskController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/SMG/controller/TaskController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/top.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/top.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/new.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/new.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,6 +46,17 @@
               <path>
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
                 <item name="SMG" type="f1a62948:ProjectNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="SMG" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="SMG" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+                <item name="application" type="c8890929:TasksNode$1" />
               </path>
             </expand>
             <select />
@@ -62,6 +88,7 @@
   "keyToString": {
     "DefaultHtmlFileTemplate": "HTML File",
     "Gradle.SMG [:com.example.SMG.SmgApplication.main()].executor": "Run",
+    "Gradle.SMG [bootRun].executor": "Debug",
     "Gradle.SMG のビルド.executor": "Run",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
@@ -70,10 +97,11 @@
     "SHELLCHECK.PATH": "気にする",
     "git-widget-placeholder": "master",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/trainee1481/IdeaProjects/SMG"
+    "last_opened_file_path": "C:/Users/trainee1481/IdeaProjects/SMG",
+    "settings.editor.selected.configurable": "reference.settingsdialog.project.gradle"
   }
 }]]></component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Gradle.SMG [bootRun]">
     <configuration name="SmgApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.example.SMG.SmgApplication" />
       <module name="SMG.main" />
@@ -87,8 +115,31 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="SMG [bootRun]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="bootRun" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>false</RunAsTest>
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Gradle.SMG [bootRun]" />
         <item itemvalue="アプリケーション.SmgApplication" />
       </list>
     </recent_temporary>
@@ -108,25 +159,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/main/java/com/example/SMG/controller/TaskController.java</url>
-          <line>56</line>
-          <properties class="com.example.SMG.controller.TaskController" method="newTask">
-            <option name="EMULATED" value="true" />
-            <option name="WATCH_EXIT" value="false" />
-          </properties>
-          <option name="timeStamp" value="6" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/src/main/java/com/example/SMG/controller/TaskController.java</url>
-          <line>30</line>
-          <properties class="com.example.SMG.controller.TaskController" method="top">
-            <option name="EMULATED" value="true" />
-            <option name="WATCH_EXIT" value="false" />
-          </properties>
-          <option name="timeStamp" value="7" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/src/main/java/com/example/SMG/controller/TaskController.java</url>
-          <line>175</line>
+          <line>177</line>
           <properties class="com.example.SMG.controller.TaskController" method="updateTask">
             <option name="EMULATED" value="true" />
             <option name="WATCH_EXIT" value="false" />
@@ -135,21 +168,12 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/main/java/com/example/SMG/controller/TaskController.java</url>
-          <line>208</line>
+          <line>210</line>
           <properties class="com.example.SMG.controller.TaskController" method="deleteTask">
             <option name="EMULATED" value="true" />
             <option name="WATCH_EXIT" value="false" />
           </properties>
           <option name="timeStamp" value="10" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/src/main/java/com/example/SMG/controller/TaskController.java</url>
-          <line>73</line>
-          <properties class="com.example.SMG.controller.TaskController" method="changeStatus">
-            <option name="EMULATED" value="true" />
-            <option name="WATCH_EXIT" value="false" />
-          </properties>
-          <option name="timeStamp" value="11" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
