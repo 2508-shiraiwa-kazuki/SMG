@@ -15,6 +15,7 @@ import org.thymeleaf.util.StringUtils;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -70,17 +71,40 @@ public class TaskController {
     /*
      * ステータス変更処理
      */
-    @PutMapping("/change/{id}")
+/*    @PutMapping("/change/{id}")
     public ModelAndView changeStatus(@PathVariable Integer id,
-                                     @ModelAttribute("tasks") TaskForm task) {
-        // 更新対象のタスクIDを設定
+                                     @RequestParam String content,
+                                     @RequestParam Integer status,
+                                     @RequestParam String date) {
+        // ステータス変更対象のタスク情報を設定
+        TaskForm task = new TaskForm();
         task.setId(id);
+        task.setContent(content);
+        task.setStatus(status);
         // ステータス更新処理
-        Timestamp limitDate = Timestamp.valueOf(task.getLimitDate());
+        Timestamp limitDate = Timestamp.valueOf(date);
         taskService.saveTask(task, limitDate);
         // TOP画面表示処理
         return new ModelAndView("redirect:/");
     }
+*/
+    @PutMapping("/change/{id}")
+    public ModelAndView changeStatus(@PathVariable Integer id,
+                                     @RequestParam String content,
+                                     @RequestParam Integer status,
+                                     @RequestParam String limitDate) {
+
+        TaskForm task = new TaskForm();
+        task.setId(id);
+        task.setContent(content);
+        task.setStatus(status);
+
+        Timestamp limitDateTs = Timestamp.valueOf(limitDate);
+        taskService.saveTask(task, limitDateTs);
+
+        return new ModelAndView("redirect:/");
+    }
+
 
     /*
      *　新規タスク追加処理
@@ -93,7 +117,8 @@ public class TaskController {
         Timestamp limitDate = null;
         if(!StringUtils.isEmpty(taskForm.getLimitDate())){
             Timestamp today = new Timestamp(System.currentTimeMillis());
-            limitDate = Timestamp.valueOf(taskForm.getLimitDate() + " 23:59:59");
+            LocalDateTime ldc = LocalDateTime.parse(taskForm.getLimitDate());
+            limitDate = Timestamp.valueOf(ldc);
 
             //今日の日付と入力された日付を比較し、過去の日付であればエラーを追加
             if(limitDate.before(today)){
@@ -152,12 +177,12 @@ public class TaskController {
     @PutMapping("/update/{id}")
     public ModelAndView updateTask(@PathVariable Integer id,
                                    @ModelAttribute("formModel") @Validated TaskForm task,
-                                   BindingResult result) {
+                                   BindingResult result, RedirectAttributes redirectAttributes) {
         // タスク内容をチェック
         Timestamp limitDate = null;
         if (!StringUtils.isEmpty(task.getLimitDate())) {
             Timestamp today = new Timestamp(System.currentTimeMillis());
-            limitDate = Timestamp.valueOf(task.getLimitDate() + " 23:59:59");
+            limitDate = Timestamp.valueOf(LocalDateTime.parse(task.getLimitDate()));
 
             //今日の日付と入力された日付を比較し、過去の日付であればエラーを追加
             if (limitDate.before(today)) {

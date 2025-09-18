@@ -3,9 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <link th:href="@{/css/style.css}" rel="styleSheet">
-    <!-- JavaScriptを使えるようにするURL -->
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-    <script src="task.js"></script>
     <title>ToDoリスト</title>
 </head>
 <body>
@@ -43,48 +40,57 @@
     <table>
         <!-- 表見出し -->
         <thead>
-            <tr>
-                <th>タスク内容</th>
-                <th>ステータス</th>
-                <th></th>
-                <th>タスク期限</th>
-                <th></th>
-                <th></th>
-            </tr>
+        <tr>
+            <th>タスク内容</th>
+            <th>ステータス</th>
+            <th></th>
+            <th>タスク期限</th>
+            <th></th>
+            <th></th>
+        </tr>
         </thead>
         <!-- 表の内容 -->
         <tbody>
-            <tr class="tasks" th:each="task : ${tasks}">
-                <td th:text="*{task.content}"></td>
-                <td><!-- ステータスのプルダウン -->
-                    <select name="changeStatus">
-                        <option value="notStart">未着手</option>
-                        <option value="execute">実行中</option>
-                        <option value="stay">ステイ中</option>
-                        <option value="complete">完了</option>
+        <tr th:each="task : ${tasks}">
+            <td>
+                <span th:text="${task.content}"></span>
+            </td>
+
+            <td>
+                <form th:action="@{/change/{id}(id=${task.id})}" th:method="put">
+
+                    <!-- contentとlimitDateをhiddenで送信 -->
+                    <input type="hidden" name="content" th:value="${task.content}"/>
+                    <input type="hidden" name="limitDate" th:value="${task.limitDate}"/>
+
+                    <!-- statusの変更セレクト -->
+                    <select name="status">
+                        <option value="1" th:selected="${task.status == 1}">未着手</option>
+                        <option value="2" th:selected="${task.status == 2}">実行中</option>
+                        <option value="3" th:selected="${task.status == 3}">ステイ中</option>
+                        <option value="4" th:selected="${task.status == 4}">完了</option>
                     </select>
 
-                    <!-- ステータス変更ボタン -->
-                    <form class="change-button" th:action="@{/change/{id}(id=${task.id})}" th:method="put">
-                        <input type="submit" value="変更" />
-                    </form>
-                </td>
-                <!-- タスク期限 -->
-                <td>
-                    <div class="before hidden" id="before"><span th:text="${task.limitDate}" id="limitDate" /></div>
-                    <div class="after hidden" id="after"><span th:text="${task.limitDate}" /></div>
-                </td>
-                <td><!-- 編集ボタン -->
-                    <a class="edit-button" th:href="@{/edit/{id}(id=${task.id})}" >
-                        <input type="button" value="編集" />
-                    </a>
-                </td>
-                <td><!-- 削除ボタン -->
-                    <form class="delete-button" th:action="@{/delete/{id}(id=${task.id})}" th:method="delete" >
-                        <input type="submit" value="削除" />
-                    </form>
-                </td>
-            </tr>
+                    <input type="submit" value="変更"/>
+                </form>
+            </td>
+
+            <td>
+                <span th:text="${task.limitDate}"></span>
+            </td>
+
+            <td>
+                <a th:href="@{/edit/{id}(id=${task.id})}">
+                    <input type="button" value="編集"/>
+                </a>
+            </td>
+
+            <td>
+                <form th:action="@{/delete/{id}(id=${task.id})}" th:method="delete">
+                    <input type="submit" value="削除"/>
+                </form>
+            </td>
+        </tr>
         </tbody>
     </table>
 </div>
