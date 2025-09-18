@@ -31,7 +31,7 @@ public class TaskController {
     @GetMapping
     public ModelAndView top(@RequestParam(required = false) String startDate,
                             @RequestParam(required = false) String endDate,
-                            @RequestParam(defaultValue = "1") int status,
+                            @RequestParam(defaultValue = "0") int status,
                             @RequestParam(required = false) String keyword) {
         ModelAndView mav = new ModelAndView();
         // タスク取得＋絞り込み
@@ -71,23 +71,6 @@ public class TaskController {
     /*
      * ステータス変更処理
      */
-/*    @PutMapping("/change/{id}")
-    public ModelAndView changeStatus(@PathVariable Integer id,
-                                     @RequestParam String content,
-                                     @RequestParam Integer status,
-                                     @RequestParam String date) {
-        // ステータス変更対象のタスク情報を設定
-        TaskForm task = new TaskForm();
-        task.setId(id);
-        task.setContent(content);
-        task.setStatus(status);
-        // ステータス更新処理
-        Timestamp limitDate = Timestamp.valueOf(date);
-        taskService.saveTask(task, limitDate);
-        // TOP画面表示処理
-        return new ModelAndView("redirect:/");
-    }
-*/
     @PutMapping("/change/{id}")
     public ModelAndView changeStatus(@PathVariable Integer id,
                                      @RequestParam String content,

@@ -13,13 +13,13 @@
     <form th:method="put" th:action="@{/update/{id}(id=${formModel.id})}" th:object="${formModel}">
         <div class="form-area">
             <lael>タスク内容</lael>
-            <div class="errorMessage" th:if="${#fields.hasErrors('content')}" th:errors="*{content}"></div>
+            <div class="errorMessages" th:if="${#fields.hasErrors('content')}" th:errors="*{content}"></div>
             <br/>
             <textarea th:field="*{content}" size="20" maxlength="200"></textarea>
             <br/>
             <label>タスク期限</label>
-            <div class="errorMessage" th:if="${#fields.hasErrors('limitDate')}" th:errors="*{limitDate}"></div>
-            <input type="date" name="limitDate" th:filed="*{limitDate}"/>
+            <div class="errorMessages" th:if="${#fields.hasErrors('limitDate')}" th:errors="*{limitDate}"></div>
+            <input type="datetime-local" name="limitDate" th:filed="*{limitDate}"/>
             <br/>
             <input type="submit" value="編集"/>
         </div>
