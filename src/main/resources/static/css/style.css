@@ -80,3 +80,15 @@ label {
 	margin-left: 10px;
 	color: red;
 }
+
+.hidden {
+    display: none;
+}
+
+.before {
+    background-color: yellow;
+}
+
+.after {
+    background-color: red;
+}

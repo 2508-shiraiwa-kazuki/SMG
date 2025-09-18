@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <link th:href="@{/css/style.css}" rel="styleSheet">
+    <!-- JavaScriptを使えるようにするURL -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="task.js"></script>
     <title>ToDoリスト</title>
 </head>
 <body>
@@ -53,28 +56,30 @@
         <tbody>
             <tr class="tasks" th:each="task : ${tasks}">
                 <td th:text="*{task.content}"></td>
-                <td>
+                <td><!-- ステータスのプルダウン -->
                     <select name="changeStatus">
                         <option value="notStart">未着手</option>
                         <option value="execute">実行中</option>
                         <option value="stay">ステイ中</option>
                         <option value="complete">完了</option>
                     </select>
+
+                    <!-- ステータス変更ボタン -->
                     <form class="change-button" th:action="@{/change/{id}(id=${task.id})}" th:method="put">
-                        <!-- 変更ボタン押下時の処理を要確認 -->
                         <input type="submit" value="変更" />
                     </form>
                 </td>
+                <!-- タスク期限 -->
                 <td>
-                    <!-- if文でタスク期限と現在日から背景色を変更できるよう追記必要 -->
-                    <span th:text="${task.limitDate}" />
+                    <div class="before hidden" id="before"><span th:text="${task.limitDate}" id="limitDate" /></div>
+                    <div class="after hidden" id="after"><span th:text="${task.limitDate}" /></div>
                 </td>
-                <td>
+                <td><!-- 編集ボタン -->
                     <a class="edit-button" th:href="@{/edit/{id}(id=${task.id})}" >
                         <input type="button" value="編集" />
                     </a>
                 </td>
-                <td>
+                <td><!-- 削除ボタン -->
                     <form class="delete-button" th:action="@{/delete/{id}(id=${task.id})}" th:method="delete" >
                         <input type="submit" value="削除" />
                     </form>
