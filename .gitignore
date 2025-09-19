@@ -1,3 +1,5 @@
+<<<<<<< HEAD
+=======
 HELP.md
 .gradle
 build/
@@ -42,3 +44,19 @@ out/
 /gradlew
 /gradlew.bat
 /settings.gradle
+<<<<<<< HEAD
+/.gradle
+/build
+/gradle
+/.idea
+/.gradle
+/.idea
+/build
+/gradle
+/src/main/resources/application.properties
+=======
+>>>>>>> ffe81dedd3f94c8659e05546330923eb3067b5cd
+/.gradle
+/.idea
+/build
+>>>>>>> 8354c96e0ded6f40708db9c3e4ded4e3c32165c3

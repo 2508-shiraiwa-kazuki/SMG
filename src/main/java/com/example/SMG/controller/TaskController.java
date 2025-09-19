@@ -44,7 +44,7 @@ public class TaskController {
 
 
         // 現在日の取得
-        Timestamp today = new Timestamp(System.currentTimeMillis());
+        LocalDateTime today = LocalDateTime.now();
 
         mav.setViewName("/top");
         mav.addObject("tasks", taskData);
@@ -76,6 +76,23 @@ public class TaskController {
     /*
      * ステータス変更処理
      */
+/*    @PutMapping("/change/{id}")
+    public ModelAndView changeStatus(@PathVariable Integer id,
+                                     @RequestParam String content,
+                                     @RequestParam Integer status,
+                                     @RequestParam String date) {
+        // ステータス変更対象のタスク情報を設定
+        TaskForm task = new TaskForm();
+        task.setId(id);
+        task.setContent(content);
+        task.setStatus(status);
+        // ステータス更新処理
+        Timestamp limitDate = Timestamp.valueOf(date);
+        taskService.saveTask(task, limitDate);
+        // TOP画面表示処理
+        return new ModelAndView("redirect:/");
+    }
+*/
     @PutMapping("/change/{id}")
     public ModelAndView changeStatus(@PathVariable Integer id,
                                      @RequestParam String content,
@@ -103,10 +120,9 @@ public class TaskController {
                                 RedirectAttributes redirectAttributes) {
 
         Timestamp limitDate = null;
-        if (!StringUtils.isEmpty(taskForm.getLimitDate())) {
+        if(taskForm.getLimitDate() != null){
             Timestamp today = new Timestamp(System.currentTimeMillis());
-            LocalDateTime ldc = LocalDateTime.parse(taskForm.getLimitDate());
-            limitDate = Timestamp.valueOf(ldc);
+            limitDate = Timestamp.valueOf(taskForm.getLimitDate());
 
             //今日の日付と入力された日付を比較し、過去の日付であればエラーを追加
             if (limitDate.before(today)) {
@@ -168,9 +184,9 @@ public class TaskController {
                                    BindingResult result, RedirectAttributes redirectAttributes) {
         // タスク内容をチェック
         Timestamp limitDate = null;
-        if (!StringUtils.isEmpty(task.getLimitDate())) {
+        if (task.getLimitDate() != null) {
             Timestamp today = new Timestamp(System.currentTimeMillis());
-            limitDate = Timestamp.valueOf(LocalDateTime.parse(task.getLimitDate()));
+            limitDate = Timestamp.valueOf(task.getLimitDate());
 
             //今日の日付と入力された日付を比較し、過去の日付であればエラーを追加
             if (limitDate.before(today)) {
