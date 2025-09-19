@@ -47,10 +47,8 @@ public class TaskService {
 
         List<Task> results;
         if((!StringUtils.isBlank(keyword)) && (status != 0)) {
-//            results = taskRepository.findByLimitDateBetweenAndContentContainingAndStatus(start, end, keyword, status);
             results = taskRepository.findTop1000ByLimitDateBetweenAndContentAndStatusOrderByLimitDateAsc(start, end, keyword, status);
         } else if((StringUtils.isBlank(keyword)) && (status != 0)){
-//            results = taskRepository.findTop1000ByLimitDateBetweenAndContentOrderByLimitDateAsc(start, end, keyword);
             results = taskRepository.findTop1000ByLimitDateBetweenAndStatusOrderByLimitDateAsc(start, end, status);
         } else if((!StringUtils.isBlank(keyword)) && (status == 0)){
             results = taskRepository.findTop1000ByLimitDateBetweenAndContentOrderByLimitDateAsc(start, end, keyword);

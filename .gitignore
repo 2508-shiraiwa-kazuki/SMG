@@ -60,3 +60,6 @@ out/
 /.idea
 /build
 >>>>>>> 8354c96e0ded6f40708db9c3e4ded4e3c32165c3
+/build
+/.gradle
+/.idea
