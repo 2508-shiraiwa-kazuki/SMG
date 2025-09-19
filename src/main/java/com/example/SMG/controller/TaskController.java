@@ -14,7 +14,6 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
-import java.net.http.HttpRequest;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -138,8 +137,6 @@ public class TaskController {
         // タスク取得処理
         TaskForm task = taskService.editTask(Integer.valueOf(id));
 
-        String strLimitDate = task.getLimitDate().toString();
-
         // タスクの存在チェック
         if (task == null) {
             errorMessages.add("不正なパラメータです");
@@ -149,7 +146,6 @@ public class TaskController {
 
         // タスク編集画面表示処理
         ModelAndView mav = new ModelAndView();
-        mav.addObject("strLimitDate", strLimitDate);
         mav.addObject("formModel", task);
         mav.setViewName("/edit");
         return mav;
