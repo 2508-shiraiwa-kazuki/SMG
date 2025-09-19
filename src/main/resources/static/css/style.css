@@ -50,6 +50,7 @@ table, td, th {
 
 .content {
     width: 30%;
+    word-wrap: break-word;
     white-space: pre-wrap;  /* 改行や空白を保ちつつ折り返す */
 }
 
