@@ -22,47 +22,6 @@ button {
 	margin-bottom: 5px;
 }
 
-.delete-button{
-    display:inline-block;
-}
-
-.edit-button{
-    display:inline-block;
-}
-
-.profile {
-	margin-top: 10px;
-	margin-right: 10px;
-	margin-bottom: 10px;
-	margin-left: 10px;
-	height: 100px;
-}
-
-.profile .profile-image {
-	float: left;
-}
-
-.profile .name h2 {
-	font-size: 30px;
-	font-weight: bold;
-	line-height: 36px;
-	margin: 0px;
-	margin-top: 0px;
-	margin-right: 0px;
-	margin-bottom: 0px;
-	margin-left: 0px;
-}
-
-a.profile .account {
-	font-size: 13px;
-	line-height: 22px;
-}
-
-.profile .description {
-	font-size: 13px;
-	line-height: 22px;
-}
-
 .form-area {
 	margin: 10px;
 	padding: 10px;
@@ -81,15 +40,11 @@ label {
 	color: red;
 }
 
-.hidden {
-    display: none;
-}
-
-.before {
+.before-limit {
     background-color: yellow;
 }
 
-.after {
+.after-limit {
     background-color: red;
 }
 
