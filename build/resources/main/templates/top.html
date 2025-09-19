@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <link th:href="@{/css/style.css}" rel="styleSheet">
+    <script th:src="@{/js/main.js}"></script>
     <title>ToDoリスト</title>
 </head>
 <body>
@@ -11,8 +12,11 @@
 </div>
 
 <div class="main-contents">
+    <div class="errorMessages" th:if="${errorMessages != null}">
+        <span th:each="errorMessage : ${errorMessages}" th:text="${errorMessage}"></span>
+    </div>
     <div class="date">
-        本日の日付 : <span th:text="${today}"/>
+        本日の日付 : <span th:text="${#temporals.format(today, 'yyyy/MM/dd')}"/>
     </div>
     <!-- 新規タスク登録 -->
     <div class="new-button">
@@ -43,21 +47,20 @@
         <tr>
             <th>タスク内容</th>
             <th>ステータス</th>
-            <th></th>
             <th>タスク期限</th>
-            <th></th>
-            <th></th>
+            <th>編集</th>
+            <th>削除</th>
         </tr>
         </thead>
         <!-- 表の内容 -->
         <tbody>
         <tr th:each="task : ${tasks}">
             <td>
-                <span th:text="${task.content}"></span>
+                <span class="content" th:text="${task.content}"></span>
             </td>
 
-            <td>
-                <form th:action="@{/change/{id}(id=${task.id})}" th:method="put">
+            <td class="status">
+                <form th:action="@{/change/{id}(id=${task.id})}" th:method="put" onSubmit="return CheckAlter()">
 
                     <!-- contentとlimitDateをhiddenで送信 -->
                     <input type="hidden" name="content" th:value="${task.content}"/>
@@ -75,18 +78,18 @@
                 </form>
             </td>
             <!-- タスク期限　（期限内or今日まで：黄色 / 期限超過：赤）-->
-            <td th:classappend="${another >= today} ? 'after-limit' : 'before-limit'">
-                <span th:text="${task.limitDate}"></span>
+            <td th:classappend="${task.limitDate < today} ? 'after-limit' : 'before-limit'">
+                <span th:text="${#temporals.format(task.limitDate, 'yyyy/MM/dd')}"></span>
             </td>
 
-            <td>
+            <td class="task-button">
                 <a th:href="@{/edit/{id}(id=${task.id})}">
                     <input type="button" value="編集"/>
                 </a>
             </td>
 
-            <td>
-                <form th:action="@{/delete/{id}(id=${task.id})}" th:method="delete">
+            <td class="task-button">
+                <form th:action="@{/delete/{id}(id=${task.id})}" th:method="delete" onSubmit="return CheckDelete()">
                     <input type="submit" value="削除"/>
                 </form>
             </td>

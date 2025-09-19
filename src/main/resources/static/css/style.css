@@ -1,5 +1,5 @@
 body {
-	background-color: #E0FFFF;
+	background-color: #FFFFDD;
 }
 
 .header-contents {
@@ -9,7 +9,7 @@ body {
 .main-contents {
 	margin: 20px;
 	padding: 10px 10px 5px 10px;
-	background-color: #B4CCCC;
+	background-color: #FFFFDD;
 	height: 100%;
 	width: 80%;
 }
@@ -40,14 +40,37 @@ label {
 	color: red;
 }
 
-.before-limit {
-    background-color: yellow;
+.table {
+    width: 800px;
 }
 
-.after-limit {
-    background-color: red;
+table, td, th {
+    border: 1px solid #000;
 }
 
 .content {
+    width: 30%;
     white-space: pre-wrap;  /* 改行や空白を保ちつつ折り返す */
+}
+
+.status {
+    width: 20%;
+    text-align: center;
+}
+
+.before-limit {
+    width: 30%;
+    background-color: #FFEF6C;
+    text-align: center;
+}
+
+.after-limit {
+    width: 30%;
+    background-color: #FF6666;
+    text-align: center;
+}
+
+.task-button {
+    width: 10%;
+    text-align: center;
 }
