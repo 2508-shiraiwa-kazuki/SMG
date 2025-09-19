@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <link th:href="@{/css/style.css}" rel="styleSheet">
-    <script  type="text/javascript" th:src="@{/js/main.js}"></script>
     <title>ToDoリスト</title>
 </head>
 <body>
@@ -13,7 +12,7 @@
 
 <div class="main-contents">
     <div class="date">
-        本日の日付 : <span id="today" th:text="${today}"/>
+        本日の日付 : <span th:text="${today}"/>
     </div>
     <!-- 新規タスク登録 -->
     <div class="new-button">
@@ -38,12 +37,13 @@
         </form>
     </div>
     <!-- ここからタスク一覧 -->
-    <table>
+    <table class="table">
         <!-- 表見出し -->
         <thead>
         <tr>
             <th>タスク内容</th>
             <th>ステータス</th>
+            <th></th>
             <th>タスク期限</th>
             <th></th>
             <th></th>
@@ -57,7 +57,7 @@
             </td>
 
             <td>
-                <form th:action="@{/change/{id}(id=${task.id})}" th:method="put" onSubmit="return CheckAlter()">
+                <form th:action="@{/change/{id}(id=${task.id})}" th:method="put">
 
                     <!-- contentとlimitDateをhiddenで送信 -->
                     <input type="hidden" name="content" th:value="${task.content}"/>
@@ -74,9 +74,9 @@
                     <input type="submit" value="変更"/>
                 </form>
             </td>
-
-            <td>
-                <span id="limitDate" th:text="${task.limitDate}"></span>
+            <!-- タスク期限　（期限内or今日まで：黄色 / 期限超過：赤）-->
+            <td th:classappend="${task.limitDate > today} ? 'after-limit' : 'before-limit'">
+                <span th:text="${task.limitDate}"></span>
             </td>
 
             <td>
@@ -86,7 +86,7 @@
             </td>
 
             <td>
-                <form th:action="@{/delete/{id}(id=${task.id})}" th:method="delete" id="delete" onSubmit="return CheckDelete()" >
+                <form th:action="@{/delete/{id}(id=${task.id})}" th:method="delete">
                     <input type="submit" value="削除"/>
                 </form>
             </td>
