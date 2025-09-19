@@ -11,7 +11,7 @@
 </div>
 <div class="main-contents">
     <div class="errorMessages" th:if="${errorMessages != null}">
-        <span th:each="errorMessage : ${errorMessages}" th:text="${errorMessage}"></span>
+        <div th:each="errorMessage : ${errorMessages}" th:text="${errorMessage}"></div>
     </div>
     <form th:method="put" th:action="@{/update/{id}(id=${formModel.id})}" th:object="${formModel}">
         <input type="hidden" name="status" th:field="*{status}"/>

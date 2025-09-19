@@ -14,18 +14,3 @@ function CheckAlter(){
 	}
 }
 
-//document.addEventListener("DOMContentLoaded", function() {
-//
-//    var strlimitDate = document.getElementById("limitDate");
-//
-//    var today = new Date();
-//    var limitDate = new Date(strlimitDate);
-//
-//    if(limitDate.getTime() < today.getTime()){
-//        strlimitDate.style.color = "red";
-//    } else {
-//        strlimitDate.style.color = "yellow";
-//    }
-//});
-
-

@@ -12,15 +12,11 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.thymeleaf.util.StringUtils;
 
-import java.sql.Time;
+
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -40,8 +36,6 @@ public class TaskController {
         ModelAndView mav = new ModelAndView();
         // タスク取得＋絞り込み
         List<TaskForm> taskData = taskService.findTask(startDate, endDate, status, keyword);
-
-
 
         // 現在日の取得
         LocalDateTime today = LocalDateTime.now();
@@ -92,7 +86,6 @@ public class TaskController {
 
         return new ModelAndView("redirect:/");
     }
-
 
     /*
      *　新規タスク追加処理
