@@ -41,9 +41,9 @@ public class TaskService {
         Timestamp end = Timestamp.valueOf(endTime);
 
         // 条件①「開始日と終了日の間」findByLimitDateBetween(start, end); if文不要
-        // 条件②「～に完全一致」findByContentContaining(keyword); if文不要？
+        // 条件②「～に完全一致」findByContent(keyword); if文不要？
         // 条件③「ステータスの状態」findByStatus(status); 値が0の時は無視するようなif文が必要
-        // Jpa文 findByLimitDateBetween And ContentContaining And Status
+        // Jpa文 find Top1000 ByLimitDateBetween And Content And Status
 
         List<Task> results;
         if((!StringUtils.isBlank(keyword)) && (status != 0)) {

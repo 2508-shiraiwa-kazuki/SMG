@@ -16,7 +16,7 @@
         <span th:each="errorMessage : ${errorMessages}" th:text="${errorMessage}"></span>
     </div>
     <div class="date">
-        本日の日付 : <span th:text="${#temporals.format(today, 'yyyy/MM/dd')}"/>
+        本日の日付 : <span th:text="${#temporals.format(today, 'yyyy/MM/dd HH:mm:ss')}"/>
     </div>
     <!-- 新規タスク登録 -->
     <div class="new-button">
@@ -78,8 +78,10 @@
                 </form>
             </td>
             <!-- タスク期限　（期限内or今日まで：黄色 / 期限超過：赤）-->
-            <td th:classappend="${task.limitDate < today} ? 'after-limit' : 'before-limit'">
-                <span th:text="${#temporals.format(task.limitDate, 'yyyy/MM/dd')}"></span>
+            <td>
+                <div th:classappend="${task.limitDate < today ? 'after-limit' : (task.limitDate > tomorrow ? 'before-limit' : 'on-limit')}">
+                    <span th:text="${#temporals.format(task.limitDate, 'yyyy/MM/dd HH:mm:ss')}"></span>
+                </div>
             </td>
 
             <td class="task-button">

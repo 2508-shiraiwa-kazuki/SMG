@@ -15,6 +15,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,10 +40,12 @@ public class TaskController {
 
         // 現在日の取得
         LocalDateTime today = LocalDateTime.now();
+        LocalDateTime tomorrow = today.plusDays(1);
 
         mav.setViewName("/top");
         mav.addObject("tasks", taskData);
         mav.addObject("today", today);
+        mav.addObject("tomorrow", tomorrow);
         mav.addObject("startDate", startDate);
         mav.addObject("endDate", endDate);
         mav.addObject("status", status);
