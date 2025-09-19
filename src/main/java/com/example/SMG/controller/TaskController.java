@@ -13,8 +13,10 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.thymeleaf.util.StringUtils;
 
+import java.sql.Time;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
@@ -31,15 +33,16 @@ public class TaskController {
     @GetMapping
     public ModelAndView top(@RequestParam(required = false) String startDate,
                             @RequestParam(required = false) String endDate,
-                            @RequestParam(defaultValue = "1") int status,
+                            @RequestParam(defaultValue = "0") int status,
                             @RequestParam(required = false) String keyword) {
         ModelAndView mav = new ModelAndView();
         // タスク取得＋絞り込み
         List<TaskForm> taskData = taskService.findTask(startDate, endDate, status, keyword);
+
+
+
         // 現在日の取得
-        Date now = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-        String today = sdf.format(now);
+        Timestamp today = new Timestamp(System.currentTimeMillis());
 
         mav.setViewName("/top");
         mav.addObject("tasks", taskData);

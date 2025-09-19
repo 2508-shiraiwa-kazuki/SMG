@@ -37,7 +37,7 @@
         </form>
     </div>
     <!-- ここからタスク一覧 -->
-    <table>
+    <table class="table">
         <!-- 表見出し -->
         <thead>
         <tr>
@@ -74,9 +74,9 @@
                     <input type="submit" value="変更"/>
                 </form>
             </td>
-
-            <td>
-                <span th:text="${task.limitDate}"></span>
+            <!-- タスク期限　（期限内or今日まで：黄色 / 期限超過：赤）-->
+            <td th:classappend="${task.limitDate > today} ? 'after-limit' : 'before-limit'">
+                <span th:text="${#temporals.format(task.limitDate.toLocalDateTime(), 'yyyy/MM/dd')}"></span>
             </td>
 
             <td>
