@@ -72,7 +72,7 @@ public class TaskService {
             task.setId(result.getId());
             task.setContent(result.getContent());
             task.setStatus(result.getStatus());
-            task.setLimitDate(String.valueOf(result.getLimitDate()));
+            task.setLimitDate(result.getLimitDate().toLocalDateTime());
             task.setCreatedDate(result.getCreatedDate());
             task.setUpdatedDate(result.getUpdatedDate());
             tasks.add(task);

@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -18,8 +19,8 @@ public class TaskForm {
 
     private int status;
 
-    @NotBlank(message = "期限を設定してください")
-    private String limitDate;
+    @NotNull(message = "期限を設定してください")
+    private LocalDateTime limitDate;
 
     private Timestamp createdDate;
 

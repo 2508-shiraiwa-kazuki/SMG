@@ -46,3 +46,8 @@ out/
 /build
 /gradle
 /.idea
+/.gradle
+/.idea
+/build
+/gradle
+/src/main/resources/application.properties
