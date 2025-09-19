@@ -47,3 +47,7 @@ label {
 .after-limit {
     background-color: red;
 }
+
+.content {
+    white-space: pre-wrap;  /* 改行や空白を保ちつつ折り返す */
+}

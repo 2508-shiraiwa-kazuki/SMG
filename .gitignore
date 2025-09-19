@@ -42,6 +42,7 @@ out/
 /gradlew
 /gradlew.bat
 /settings.gradle
+<<<<<<< HEAD
 /.gradle
 /build
 /gradle
@@ -51,3 +52,5 @@ out/
 /build
 /gradle
 /src/main/resources/application.properties
+=======
+>>>>>>> ffe81dedd3f94c8659e05546330923eb3067b5cd
