@@ -23,7 +23,7 @@
             <br/>
             <label>タスク期限</label>
             <div class="errorMessages" th:if="${#fields.hasErrors('limitDate')}" th:errors="*{limitDate}"></div>
-            <input type="datetime-local" name="limitDate" th:field="*{limitDate}"/>
+            <input type="datetime-local" name="limitDate"  th:field="*{limitDate}"/>
             <br/>
             <input type="submit" value="編集"/>
         </div>

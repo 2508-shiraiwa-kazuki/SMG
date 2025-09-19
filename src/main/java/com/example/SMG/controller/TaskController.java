@@ -14,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
+import java.net.http.HttpRequest;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -70,28 +71,11 @@ public class TaskController {
     /*
      * ステータス変更処理
      */
-/*    @PutMapping("/change/{id}")
-    public ModelAndView changeStatus(@PathVariable Integer id,
-                                     @RequestParam String content,
-                                     @RequestParam Integer status,
-                                     @RequestParam String date) {
-        // ステータス変更対象のタスク情報を設定
-        TaskForm task = new TaskForm();
-        task.setId(id);
-        task.setContent(content);
-        task.setStatus(status);
-        // ステータス更新処理
-        Timestamp limitDate = Timestamp.valueOf(date);
-        taskService.saveTask(task, limitDate);
-        // TOP画面表示処理
-        return new ModelAndView("redirect:/");
-    }
-*/
     @PutMapping("/change/{id}")
     public ModelAndView changeStatus(@PathVariable Integer id,
                                      @RequestParam String content,
                                      @RequestParam Integer status,
-                                     @RequestParam String limitDate) {
+                                     @RequestParam LocalDateTime limitDate) {
 
         TaskForm task = new TaskForm();
         task.setId(id);
@@ -154,6 +138,8 @@ public class TaskController {
         // タスク取得処理
         TaskForm task = taskService.editTask(Integer.valueOf(id));
 
+        String strLimitDate = task.getLimitDate().toString();
+
         // タスクの存在チェック
         if (task == null) {
             errorMessages.add("不正なパラメータです");
@@ -163,6 +149,7 @@ public class TaskController {
 
         // タスク編集画面表示処理
         ModelAndView mav = new ModelAndView();
+        mav.addObject("strLimitDate", strLimitDate);
         mav.addObject("formModel", task);
         mav.setViewName("/edit");
         return mav;
