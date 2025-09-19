@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <link th:href="@{/css/style.css}" rel="styleSheet">
+    <link th:href="@{/js/main.js}" rel="javaScript">
     <title>ToDoリスト</title>
 </head>
 <body>
@@ -60,7 +61,7 @@
             </td>
 
             <td>
-                <form th:action="@{/change/{id}(id=${task.id})}" th:method="put">
+                <form th:action="@{/change/{id}(id=${task.id})}" th:method="put" onSubmit="return CheckAlter()">
 
                     <!-- contentとlimitDateをhiddenで送信 -->
                     <input type="hidden" name="content" th:value="${task.content}"/>
@@ -77,13 +78,7 @@
                     <input type="submit" value="変更"/>
                 </form>
             </td>
-<<<<<<< HEAD
-            <!-- タスク期限　（期限内or今日まで：黄色 / 期限超過：赤）-->
-            <td th:classappend="${task.limitDate > today} ? 'after-limit' : 'before-limit'">
-=======
-
             <td th:classappend="${task.limitDate < today} ? 'after-limit' : 'before-limit'">
->>>>>>> 8354c96e0ded6f40708db9c3e4ded4e3c32165c3
                 <span th:text="${task.limitDate}"></span>
             </td>
 
@@ -94,7 +89,7 @@
             </td>
 
             <td>
-                <form th:action="@{/delete/{id}(id=${task.id})}" th:method="delete">
+                <form th:action="@{/delete/{id}(id=${task.id})}" th:method="delete" onSubmit="return CheckDelete()">
                     <input type="submit" value="削除"/>
                 </form>
             </td>
