@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -19,6 +20,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class TaskController {
@@ -31,7 +33,7 @@ public class TaskController {
     @GetMapping
     public ModelAndView top(@RequestParam(required = false) String startDate,
                             @RequestParam(required = false) String endDate,
-                            @RequestParam(defaultValue = "1") int status,
+                            @RequestParam(defaultValue = "0") int status,
                             @RequestParam(required = false) String keyword) {
         ModelAndView mav = new ModelAndView();
         // タスク取得＋絞り込み
@@ -71,23 +73,6 @@ public class TaskController {
     /*
      * ステータス変更処理
      */
-/*    @PutMapping("/change/{id}")
-    public ModelAndView changeStatus(@PathVariable Integer id,
-                                     @RequestParam String content,
-                                     @RequestParam Integer status,
-                                     @RequestParam String date) {
-        // ステータス変更対象のタスク情報を設定
-        TaskForm task = new TaskForm();
-        task.setId(id);
-        task.setContent(content);
-        task.setStatus(status);
-        // ステータス更新処理
-        Timestamp limitDate = Timestamp.valueOf(date);
-        taskService.saveTask(task, limitDate);
-        // TOP画面表示処理
-        return new ModelAndView("redirect:/");
-    }
-*/
     @PutMapping("/change/{id}")
     public ModelAndView changeStatus(@PathVariable Integer id,
                                      @RequestParam String content,
@@ -110,24 +95,24 @@ public class TaskController {
      *　新規タスク追加処理
      */
     @PostMapping("/add")
-    public ModelAndView addTask(@ModelAttribute("formModel")@Validated TaskForm taskForm,
+    public ModelAndView addTask(@ModelAttribute("formModel") @Validated TaskForm taskForm,
                                 BindingResult result,
-                                RedirectAttributes redirectAttributes){
+                                RedirectAttributes redirectAttributes) {
 
         Timestamp limitDate = null;
-        if(!StringUtils.isEmpty(taskForm.getLimitDate())){
+        if (!StringUtils.isEmpty(taskForm.getLimitDate())) {
             Timestamp today = new Timestamp(System.currentTimeMillis());
             LocalDateTime ldc = LocalDateTime.parse(taskForm.getLimitDate());
             limitDate = Timestamp.valueOf(ldc);
 
             //今日の日付と入力された日付を比較し、過去の日付であればエラーを追加
-            if(limitDate.before(today)){
+            if (limitDate.before(today)) {
                 FieldError fieldError = new FieldError(result.getObjectName(), "limitDate", "無効な日付です");
                 result.addError(fieldError);
             }
         }
 
-        if(result.hasErrors()){
+        if (result.hasErrors()) {
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.formModel", result);
             redirectAttributes.addFlashAttribute("formModel", taskForm);
             return new ModelAndView("redirect:/new");
@@ -144,23 +129,23 @@ public class TaskController {
      * タスク編集画面表示処理
      */
     @GetMapping("/edit/{id}")
-    public ModelAndView editTask(@PathVariable Integer id, RedirectAttributes redirectAttributes) {
+    public ModelAndView editTask(@PathVariable String id, RedirectAttributes redirectAttributes) {
         List<String> errorMessages = new ArrayList<>();
 
         // 取得したタスクIDをチェック
-        if (id == null ||  id.toString().matches( "^\\\\d+$")) {
+        if (id == null || id.trim().isEmpty() || !id.matches("^[0-9]+$")) {
             errorMessages.add("不正なパラメータです");
-            redirectAttributes.addFlashAttribute("formModel", errorMessages);
+            redirectAttributes.addFlashAttribute("errorMessages", errorMessages);
             return new ModelAndView("redirect:/");
         }
 
         // タスク取得処理
-        TaskForm task = taskService.editTask(id);
+        TaskForm task = taskService.editTask(Integer.valueOf(id));
 
         // タスクの存在チェック
         if (task == null) {
             errorMessages.add("不正なパラメータです");
-            redirectAttributes.addFlashAttribute("formModel", errorMessages);
+            redirectAttributes.addFlashAttribute("errorMessages", errorMessages);
             return new ModelAndView("redirect:/");
         }
 
@@ -190,10 +175,14 @@ public class TaskController {
                 result.addError(fieldError);
             }
         }
+
         if (result.hasErrors()) {
-            ModelAndView mav = new ModelAndView();
-            mav.setViewName("/edit");
-            return mav;
+           List<String> errorMessages = result.getAllErrors()
+                   .stream()
+                   .map(ObjectError::getDefaultMessage)
+                   .collect(Collectors.toList());
+           redirectAttributes.addFlashAttribute("errorMessages", errorMessages);
+           return new ModelAndView("redirect:/edit/" + id);
         }
 
         // タスク更新処理

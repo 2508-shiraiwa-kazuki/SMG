@@ -10,11 +10,7 @@
     <h2>タスク編集</h2>
 </div>
 <div class="main-contents">
-    <div class="errorMessages" th:if="${errorMessages != null}">
-        <span th:each="errorMessage : ${errorMessages}" th:text="${errorMessage}"></span>
-    </div>
     <form th:method="put" th:action="@{/update/{id}(id=${formModel.id})}" th:object="${formModel}">
-        <input type="hidden" name="status" th:field="*{status}"/>
         <div class="form-area">
             <lael>タスク内容</lael>
             <div class="errorMessages" th:if="${#fields.hasErrors('content')}" th:errors="*{content}"></div>
@@ -23,7 +19,7 @@
             <br/>
             <label>タスク期限</label>
             <div class="errorMessages" th:if="${#fields.hasErrors('limitDate')}" th:errors="*{limitDate}"></div>
-            <input type="datetime-local" name="limitDate" th:field="*{limitDate}"/>
+            <input type="datetime-local" name="limitDate" th:filed="*{limitDate}"/>
             <br/>
             <input type="submit" value="編集"/>
         </div>

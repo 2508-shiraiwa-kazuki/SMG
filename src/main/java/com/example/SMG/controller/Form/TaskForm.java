@@ -13,7 +13,8 @@ public class TaskForm {
     private Integer id;
 
     @NotBlank(message = "タスクを入力してください")
-    @Size(min = 1,  max = 140, message = "タスクは140文字以内で入力してください")
+    @Pattern(regexp = "^(?![　]+$).*", message = "タスクを入力してください")
+    @Size(min = 0,  max = 140, message = "タスクは140文字以内で入力してください")
     private String content;
 
     private int status;

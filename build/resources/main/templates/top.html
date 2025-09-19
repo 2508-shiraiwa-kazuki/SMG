@@ -11,9 +11,6 @@
 </div>
 
 <div class="main-contents">
-    <div class="errorMessages" th:if="${errorMessages != null}">
-        <span th:each="errorMessage : ${errorMessages}" th:text="${errorMessage}"></span>
-    </div>
     <div class="date">
         本日の日付 : <span th:text="${today}"/>
     </div>
@@ -56,7 +53,7 @@
         <tbody>
         <tr th:each="task : ${tasks}">
             <td>
-                <span class="content" th:text="${task.content}"></span>
+                <span th:text="${task.content}"></span>
             </td>
 
             <td>
