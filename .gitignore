@@ -54,3 +54,6 @@ out/
 /src/main/resources/application.properties
 =======
 >>>>>>> ffe81dedd3f94c8659e05546330923eb3067b5cd
+/.gradle
+/.idea
+/build
